@@ -1,5 +1,5 @@
-//#define SUPPORT_0139              //S6D0139 +280 bytes
 // jwrw Since we are customising the library - let's just comment out all the bits not needed for ILI9320
+//#define SUPPORT_0139              //S6D0139 +280 bytes
 // #define SUPPORT_0154              //S6D0154 +320 bytes
 //#define SUPPORT_1289              //SSD1289,SSD1297 (ID=0x9797) +626 bytes, 0.03s
 //#define SUPPORT_1580              //R61580 Untested
