@@ -988,30 +988,46 @@ void write_8(uint8_t x)
 
 //################################### ESP32 ##############################
 #elif defined(ESP32)       //Open-Smart ILI9320 shield ribbon cabled to ESP32 doit devkit (ESP32)
-#define LCD_RD 27
-#define LCD_WR 14
-#define LCD_RS 12
-#define LCD_CS 13
-#define LCD_RST 23
+// First try working ok
+// #define LCD_RD 27
+// #define LCD_WR 14
+// #define LCD_RS 12
+// #define LCD_CS 13
+// #define LCD_RST 23
 
-#define LCD_D0  2  //LED
-#define LCD_D1  4
-#define LCD_D2 16
-#define LCD_D3 17
-#define LCD_D4  5
-#define LCD_D5 18
-#define LCD_D6 19
-#define LCD_D7 21
+// #define LCD_D0  2  //LED
+// #define LCD_D1  4
+// #define LCD_D2 16
+// #define LCD_D3 17
+// #define LCD_D4  5
+// #define LCD_D5 18
+// #define LCD_D6 19
+// #define LCD_D7 21
+
+// more 'optimised' layout - to allow reading of touch
+#define LCD_RD 13   // Orange
+#define LCD_WR 12   // Red
+#define LCD_RS 14   // Brown
+#define LCD_CS 27   // Black
+
+#define LCD_D0 21  //LED
+#define LCD_D1 19
+#define LCD_D2 18
+#define LCD_D3  5
+#define LCD_D4 17
+#define LCD_D5 16   // ADC2
+#define LCD_D6  4   // ADC2
+#define LCD_D7  2   // ADC2
+
+// for ESP32 the PORT items are not actually used at the moment
 #define RD_PORT GPIO.out
 #define RD_PIN  LCD_RD
 #define WR_PORT GPIO.out
 #define WR_PIN  LCD_WR
 #define CD_PORT GPIO.out
 #define CD_PIN  LCD_RS
-#define CS_PORT GPIO.out1.val
+#define CS_PORT GPIO.out
 #define CS_PIN  LCD_CS
-#define RESET_PORT GPIO.out1.val
-#define RESET_PIN  LCD_RST
 
 static inline uint32_t map_8(uint32_t d)
 {
@@ -1107,9 +1123,10 @@ static void setReadDir()
 #define CS_ACTIVE  PIN_LOW(CS_PORT, CS_PIN)
 #define CS_IDLE    PIN_HIGH(CS_PORT, CS_PIN)
 #define CS_OUTPUT  PIN_OUTPUT(CS_PORT, CS_PIN)
-#define RESET_ACTIVE  PIN_LOW(RESET_PORT, RESET_PIN)
-#define RESET_IDLE    PIN_HIGH(RESET_PORT, RESET_PIN)
-#define RESET_OUTPUT  PIN_OUTPUT(RESET_PORT, RESET_PIN)
+// No HW reset pin
+#define RESET_ACTIVE
+#define RESET_IDLE
+#define RESET_OUTPUT
 
  // General macros.   IOCLR registers are 1 cycle when optimised.
 #define WR_STROBE { WR_ACTIVE; WR_IDLE; }       //PWLW=TWRL=50ns
