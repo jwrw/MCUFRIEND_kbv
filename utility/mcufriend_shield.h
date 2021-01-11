@@ -1004,20 +1004,39 @@ void write_8(uint8_t x)
 // #define LCD_D6 19
 // #define LCD_D7 21
 
-// more 'optimised' layout - to allow reading of touch
-#define LCD_RD 13   // Orange
-#define LCD_WR 12   // Red
-#define LCD_RS 14   // Brown
-#define LCD_CS 27   // Black
-
-#define LCD_D0 21  //LED
-#define LCD_D1 19
-#define LCD_D2 18
-#define LCD_D3  5
+#define LCD_D0 15
+#define LCD_D1  2  //LED
+#define LCD_D2  4
+#define LCD_D3 16
 #define LCD_D4 17
-#define LCD_D5 16   // ADC2
-#define LCD_D6  4   // ADC2
-#define LCD_D7  2   // ADC2
+#define LCD_D5  5
+#define LCD_D6 18
+#define LCD_D7 19
+
+// more 'optimised' layout - to allow reading of touch
+
+#define LCD_RD 25   // Orange 
+#define LCD_WR 26   // Red (Aka A19)
+#define LCD_RS 27   // Brown (Aka A17)
+#define LCD_CS 14   // Black
+
+// #define LCD_D0 19
+// #define LCD_D1 18
+// #define LCD_D2  5
+// #define LCD_D3 17
+// #define LCD_D4 16
+// #define LCD_D5  4
+// #define LCD_D6  2
+// #define LCD_D7 15
+
+// #define LCD_D0 21
+// #define LCD_D1 19
+// #define LCD_D2 18
+// #define LCD_D3  5
+// #define LCD_D4 17
+// #define LCD_D5 16
+// #define LCD_D6  4
+// #define LCD_D7  2
 
 // for ESP32 the PORT items are not actually used at the moment
 #define RD_PORT GPIO.out
@@ -1096,6 +1115,28 @@ static void setReadDir()
 #define WRITE_DELAY { }
 #define READ_DELAY  { }
 
+#define RD_ACTIVE  PIN_LOW(RD_PORT, RD_PIN)
+#define RD_IDLE    PIN_HIGH(RD_PORT, RD_PIN)
+#define RD_OUTPUT  PIN_OUTPUT(RD_PORT, RD_PIN)
+#define WR_ACTIVE  PIN_LOW(WR_PORT, WR_PIN)
+#define WR_IDLE    PIN_HIGH(WR_PORT, WR_PIN)
+#define WR_OUTPUT  PIN_OUTPUT(WR_PORT, WR_PIN)
+#define CD_COMMAND PIN_LOW(CD_PORT, CD_PIN)
+#define CD_DATA    PIN_HIGH(CD_PORT, CD_PIN)
+#define CD_OUTPUT  PIN_OUTPUT(CD_PORT, CD_PIN)
+#define CS_ACTIVE  PIN_LOW(CS_PORT, CS_PIN)
+#define CS_IDLE    PIN_HIGH(CS_PORT, CS_PIN)
+#define CS_OUTPUT  PIN_OUTPUT(CS_PORT, CS_PIN)
+// No HW reset pin
+#define RESET_ACTIVE
+#define RESET_IDLE
+#define RESET_OUTPUT
+
+ // General macros.   IOCLR registers are 1 cycle when optimised.
+#define WR_STROBE { WR_ACTIVE; WR_IDLE; }       //PWLW=TWRL=50ns
+#define RD_STROBE { RD_IDLE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; }    //PWLR=TRDL=150ns, tDDR=100ns
+
+
 #define write8(x)     { write_8(x); WRITE_DELAY; WR_STROBE; }
 #define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
 #define READ_8(dst)   { RD_STROBE; READ_DELAY; dst = read_8(); RD_IDLE; }
@@ -1130,7 +1171,7 @@ static void setReadDir()
 
  // General macros.   IOCLR registers are 1 cycle when optimised.
 #define WR_STROBE { WR_ACTIVE; WR_IDLE; }       //PWLW=TWRL=50ns
-#define RD_STROBE RD_IDLE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE      //PWLR=TRDL=150ns, tDDR=100ns
+#define RD_STROBE { RD_IDLE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; RD_ACTIVE; }    //PWLR=TRDL=150ns, tDDR=100ns
 
 #if !defined(GPIO_INIT)
 #define GPIO_INIT()
