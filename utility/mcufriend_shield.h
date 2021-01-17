@@ -988,22 +988,8 @@ void write_8(uint8_t x)
 
 //################################### ESP32 ##############################
 #elif defined(ESP32)       //Open-Smart ILI9320 shield ribbon cabled to ESP32 doit devkit (ESP32)
-// First try working ok
-// #define LCD_RD 27
-// #define LCD_WR 14
-// #define LCD_RS 12
-// #define LCD_CS 13
-// #define LCD_RST 23
 
-// #define LCD_D0  2  //LED
-// #define LCD_D1  4
-// #define LCD_D2 16
-// #define LCD_D3 17
-// #define LCD_D4  5
-// #define LCD_D5 18
-// #define LCD_D6 19
-// #define LCD_D7 21
-
+// Layout for live version
 #define LCD_D0 15
 #define LCD_D1  2  //LED
 #define LCD_D2  4
@@ -1013,30 +999,12 @@ void write_8(uint8_t x)
 #define LCD_D6 18
 #define LCD_D7 19
 
-// more 'optimised' layout - to allow reading of touch
-
-#define LCD_RD 25   // Orange 
-#define LCD_WR 26   // Red (Aka A19)
-#define LCD_RS 27   // Brown (Aka A17)
-#define LCD_CS 14   // Black
-
-// #define LCD_D0 19
-// #define LCD_D1 18
-// #define LCD_D2  5
-// #define LCD_D3 17
-// #define LCD_D4 16
-// #define LCD_D5  4
-// #define LCD_D6  2
-// #define LCD_D7 15
-
-// #define LCD_D0 21
-// #define LCD_D1 19
-// #define LCD_D2 18
-// #define LCD_D3  5
-// #define LCD_D4 17
-// #define LCD_D5 16
-// #define LCD_D6  4
-// #define LCD_D7  2
+// layout for live version 
+// (note LCD_WR & LCD_RS need to be analogue input for touch)
+#define LCD_RD 27   // Orange 
+#define LCD_WR 14   // Red (Aka A19)
+#define LCD_RS 12   // Brown (Aka A17)
+#define LCD_CS 13   // Black
 
 // for ESP32 the PORT items are not actually used at the moment
 #define RD_PORT GPIO.out
