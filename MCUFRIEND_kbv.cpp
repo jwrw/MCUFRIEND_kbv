@@ -2549,6 +2549,9 @@ case 0x4532:    // thanks Leodino
     case 0x9302:
         _lcd_capable = AUTO_READINC | MIPI_DCS_REV1 | MV_AXIS;
 		goto common_9329;
+    case 0x93FF:    // mutant child of 9338 (colour ok) and 9329 (h-flip correct) and some more
+        _lcd_capable = AUTO_READINC | MIPI_DCS_REV1 | MV_AXIS | INVERT_SS | INVERT_RGB;
+		goto common_9329;
     case 0x9338:
         _lcd_capable = AUTO_READINC | MIPI_DCS_REV1 | MV_AXIS | READ_24BITS;
 		goto common_9329;
